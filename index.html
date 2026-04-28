@@ -18,21 +18,26 @@
       background-color: #0f0f13; 
       color: #e0e0e0; 
       line-height: 1.6;
-      padding: 20px;
+      padding: 40px 20px;
     }
 
-    .container {
-      max-width: 800px;
+    /* --- THE NEW GRID LAYOUT --- */
+    .layout-wrapper {
+      max-width: 1200px; /* Widened to fit both columns */
       margin: 0 auto;
+      display: grid;
+      grid-template-columns: 380px 1fr; /* Left column 380px, Right column takes the rest */
+      gap: 50px;
+      align-items: start; /* Prevents columns from stretching to match heights */
     }
 
-    /* --- THE ABOUT SECTION (PLAYER PROFILE) --- */
+    /* --- LEFT COLUMN: PROFILE & GAMES --- */
     .about-section {
       background-color: #1c1c24; 
       border: 1px solid #333;
       border-radius: 8px;
       padding: 30px;
-      margin: 40px 0; 
+      margin-bottom: 40px; /* Space between profile and games */
       box-shadow: 0 8px 32px rgba(0, 243, 255, 0.05); 
     }
 
@@ -63,33 +68,21 @@
       50% { opacity: 0; }
     }
 
-    .about-section p { font-size: 1.1rem; margin-bottom: 30px; }
+    .about-section p { font-size: 1rem; margin-bottom: 25px; }
 
-    .social-links h3 {
-      color: #00f3ff;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-      font-size: 1rem;
-    }
-
-    .social-links ul {
-      list-style-type: none;
-      display: flex;
-      flex-wrap: wrap; 
-      gap: 15px;
-    }
-
+    .social-links h3 { color: #00f3ff; margin-bottom: 15px; font-size: 0.9rem; }
+    .social-links ul { list-style-type: none; display: flex; flex-wrap: wrap; gap: 10px; }
     .social-links a {
       display: inline-block;
       color: #0f0f13;
       background-color: #00f3ff;
       text-decoration: none;
-      padding: 10px 20px;
+      padding: 8px 15px;
       border-radius: 4px;
       font-weight: bold;
+      font-size: 0.9rem;
       transition: all 0.2s ease-in-out;
     }
-
     .social-links a:hover {
       background-color: #ff0055;
       color: #fff;
@@ -97,145 +90,177 @@
       transform: translateY(-3px); 
     }
 
-    /* --- THE LIBRARY (BLOG CARDS) --- */
+    /* THE ARCADE (GAMES) */
+    .arcade-section .section-title { color: #00f3ff; } /* Cyan accent for games */
+    
+    .game-card {
+      background-color: #16161d;
+      border: 1px solid #2a2a35;
+      padding: 15px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .game-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+      background-color: #00f3ff;
+      transform: scaleY(0); transition: transform 0.2s;
+    }
+
+    .game-card:hover { border-color: #00f3ff; transform: translateY(-3px); }
+    .game-card:hover::before { transform: scaleY(1); }
+    .game-card h3 { color: #fff; font-size: 1.1rem; margin-bottom: 5px; }
+    .game-card p { color: #888; font-size: 0.85rem; margin-bottom: 10px; }
+    .btn-play {
+      background-color: transparent; border: 1px solid #00f3ff; color: #00f3ff;
+      padding: 5px 12px; font-size: 0.8rem; cursor: pointer; border-radius: 3px;
+      text-transform: uppercase; font-weight: bold; transition: all 0.2s;
+    }
+    .btn-play:hover { background-color: #00f3ff; color: #000; }
+
+    /* --- RIGHT COLUMN: THE LIBRARY (BLOGS) --- */
     .section-title {
-      color: #ff0055;
       margin-bottom: 20px;
       text-transform: uppercase;
       letter-spacing: 2px;
       border-bottom: 2px solid #2a2a35;
       padding-bottom: 10px;
     }
+    
+    .library-section .section-title { color: #ff0055; }
 
-    .blog-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+    .blog-grid { display: flex; flex-direction: column; gap: 20px; }
 
     .blog-card {
       background-color: #1c1c24;
       border: 1px solid #333;
-      padding: 20px;
+      padding: 25px;
       border-radius: 6px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .blog-card:hover {
-      border-color: #00f3ff;
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
-      transform: translateX(10px); /* Slides right slightly on hover */
+      border-color: #ff0055;
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.15);
+      transform: translateX(10px); 
     }
 
-    .blog-card h3 { color: #e0e0e0; margin-bottom: 5px; }
-    .blog-card p { color: #888; font-size: 0.9rem; }
+    .blog-card h3 { color: #e0e0e0; margin-bottom: 8px; font-size: 1.3rem; }
+    .blog-card p { color: #888; font-size: 0.95rem; }
 
     /* --- THE MODAL (POPUP) --- */
     .modal-overlay {
-      display: none; /* Hidden by default */
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-color: rgba(15, 15, 19, 0.9); /* Dark semi-transparent background */
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
+      display: none; 
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(15, 15, 19, 0.9); 
+      z-index: 1000; justify-content: center; align-items: center;
+      opacity: 0; transition: opacity 0.3s ease;
     }
 
     .modal-content {
-      background-color: #1c1c24;
-      border: 1px solid #00f3ff;
-      border-radius: 8px;
-      padding: 40px;
-      width: 90%;
-      max-width: 700px;
-      max-height: 80vh;
-      overflow-y: auto;
-      box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
-      position: relative;
-      transform: translateY(20px);
-      transition: transform 0.3s ease;
+      background-color: #1c1c24; border: 1px solid #ff0055; border-radius: 8px;
+      padding: 40px; width: 90%; max-width: 700px; max-height: 80vh; overflow-y: auto;
+      box-shadow: 0 0 30px rgba(255, 0, 85, 0.1); position: relative;
+      transform: translateY(20px); transition: transform 0.3s ease;
     }
 
-    /* When modal is active, trigger these animations */
-    .modal-overlay.active {
-      display: flex;
-      opacity: 1;
-    }
-    .modal-overlay.active .modal-content {
-      transform: translateY(0);
-    }
+    .modal-overlay.active { display: flex; opacity: 1; }
+    .modal-overlay.active .modal-content { transform: translateY(0); }
 
     .close-btn {
-      position: absolute;
-      top: 15px; right: 20px;
-      color: #ff0055;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: text-shadow 0.2s;
+      position: absolute; top: 15px; right: 20px; color: #ff0055;
+      font-size: 28px; font-weight: bold; cursor: pointer; transition: text-shadow 0.2s;
     }
 
-    .close-btn:hover {
-      text-shadow: 0 0 10px #ff0055;
+    .close-btn:hover { text-shadow: 0 0 10px #ff0055; }
+    #modal-article-title { color: #ff0055; margin-bottom: 20px; }
+    #modal-article-body { color: #e0e0e0; white-space: pre-wrap; font-size: 1.05rem; }
+
+    /* --- MOBILE RESPONSIVENESS --- */
+    @media (max-width: 900px) {
+      .layout-wrapper { grid-template-columns: 1fr; gap: 40px; }
+      .about-section { margin-bottom: 0; }
     }
-
-    #modal-article-title { color: #00f3ff; margin-bottom: 20px; }
-    #modal-article-body { color: #e0e0e0; white-space: pre-wrap; /* Keeps line breaks */ }
-
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <section id="about-me" class="about-section">
-      <h2><span id="profile-typewriter"></span><span class="cursor"></span></h2>
-      <p>
-        I'm a builder at the intersection of engineering, product strategy, and sound. 
-        Currently pursuing a dual degree in Electronics & Instrumentation and Physics at BITS Pilani. 
-        By day, I work on business strategy and product analytics. By night, I build games, 
-        mess with guitar tech, and write about the journey.
-      </p>
-      <div class="social-links">
-        <h3>Connect with me:</h3>
-        <ul>
-          <li><a href="mailto:abhyudai13@gmail.com">Email Me</a></li>
-          <li><a href="https://www.linkedin.com/in/abhyudai-152a58215/" target="_blank">LinkedIn</a></li>
-          <li><a href="https://www.youtube.com/@monkmad" target="_blank">YouTube (@monkmad)</a></li>
-        </ul>
-      </div>
-    </section>
+  <div class="layout-wrapper">
+    
+    <aside class="left-column">
+      
+      <section id="about-me" class="about-section">
+        <h2><span id="profile-typewriter"></span><span class="cursor"></span></h2>
+        <p>
+          I'm a builder at the intersection of engineering, product strategy, and sound. 
+          Currently pursuing a dual degree in Electronics & Instrumentation and Physics at BITS Pilani. 
+          By day, I work on business strategy and product analytics. By night, I build games, 
+          mess with guitar tech, and write about the journey.
+        </p>
+        <div class="social-links">
+          <h3>Connect with me:</h3>
+          <ul>
+            <li><a href="mailto:abhyudai13@gmail.com">Email Me</a></li>
+            <li><a href="https://www.linkedin.com/in/abhyudai-152a58215/" target="_blank">LinkedIn</a></li>
+            <li><a href="https://www.youtube.com/@monkmad" target="_blank">YouTube</a></li>
+          </ul>
+        </div>
+      </section>
 
-    <section id="library">
-      <h2 class="section-title">📖 The Library</h2>
-      <div class="blog-grid">
+      <section id="arcade" class="arcade-section">
+        <h2 class="section-title">🕹️ The Arcade</h2>
         
-        <div class="blog-card" 
-             data-title="Day 14/100: German Articles & Logic" 
-             data-body="Learning German as a programmer is strange. The grammar feels like a strict compiler, and getting the articles (Der, Die, Das) wrong is essentially a syntax error. \n\nToday I learned that you just have to memorize the gender with the noun. It's inefficient, but I'm building a mental hash-map to deal with it.">
-          <h3>Day 14/100: German Articles & Logic</h3>
-          <p>Read time: 2 mins • A programmer's take on linguistics.</p>
+        <div class="game-card">
+          <h3>Anagram Hunt</h3>
+          <p>A fast-paced word categorization game built in React.</p>
+          <button class="btn-play">Boot Game</button>
         </div>
 
-        <div class="blog-card" 
-             data-title="Strategy: The Velocity of Money" 
-             data-body="I've been thinking a lot about the 'Middle Path' in financial management. \n\nThere is a concept called the velocity of money. Instead of hoarding capital, sometimes strategic leverage (like a smart EMI) unlocks utility today without sacrificing long-term stability. It's about optimizing for both comfort and discipline.">
-          <h3>Strategy: The Velocity of Money</h3>
-          <p>Read time: 3 mins • Financial frameworks for daily life.</p>
+        <div class="game-card">
+          <h3>Shortest Path Explorer</h3>
+          <p>A map-based pathfinding logic game utilizing BFS.</p>
+          <button class="btn-play">Boot Game</button>
         </div>
 
-        <div class="blog-card" 
-             data-title="Debugging the Signal Chain" 
-             data-body="Spent the weekend chasing down a terrible crackle sound in my guitar rig. \n\nTurns out, digital signal processing in AmpliTube requires ruthless volume knob management. If your input gain is too hot before it even hits the software amp, no amount of digital EQ will save you. Garbage in, garbage out.">
-          <h3>Debugging the Signal Chain</h3>
-          <p>Read time: 4 mins • Guitar tech and DSP lessons.</p>
-        </div>
+      </section>
+    </aside>
 
-      </div>
-    </section>
+    <main class="right-column">
+      
+      <section id="library" class="library-section">
+        <h2 class="section-title">📖 The Library</h2>
+        <div class="blog-grid">
+          
+          <div class="blog-card" 
+               data-title="Day 14/100: German Articles & Logic" 
+               data-body="Learning German as a programmer is strange. The grammar feels like a strict compiler, and getting the articles (Der, Die, Das) wrong is essentially a syntax error. \n\nToday I learned that you just have to memorize the gender with the noun. It's inefficient, but I'm building a mental hash-map to deal with it.">
+            <h3>Day 14/100: German Articles & Logic</h3>
+            <p>Read time: 2 mins • A programmer's take on linguistics.</p>
+          </div>
+
+          <div class="blog-card" 
+               data-title="Strategy: The Velocity of Money" 
+               data-body="I've been thinking a lot about the 'Middle Path' in financial management. \n\nThere is a concept called the velocity of money. Instead of hoarding capital, sometimes strategic leverage (like a smart EMI) unlocks utility today without sacrificing long-term stability. It's about optimizing for both comfort and discipline.">
+            <h3>Strategy: The Velocity of Money</h3>
+            <p>Read time: 3 mins • Financial frameworks for daily life.</p>
+          </div>
+
+          <div class="blog-card" 
+               data-title="Debugging the Signal Chain" 
+               data-body="Spent the weekend chasing down a terrible crackle sound in my guitar rig. \n\nTurns out, digital signal processing in AmpliTube requires ruthless volume knob management. If your input gain is too hot before it even hits the software amp, no amount of digital EQ will save you. Garbage in, garbage out.">
+            <h3>Debugging the Signal Chain</h3>
+            <p>Read time: 4 mins • Guitar tech and DSP lessons.</p>
+          </div>
+
+        </div>
+      </section>
+    </main>
+
   </div>
 
   <div id="blog-modal" class="modal-overlay">
@@ -247,11 +272,10 @@
   </div>
 
   <script>
-    // --- 1. Profile Typewriter Effect (Existing) ---
-    const profileText = "> PLAYER PROFILE: ABHYUDAI";
+    // --- Profile Typewriter ---
+    const profileText = "> ABHYUDAI.EXE";
     const profileEl = document.getElementById("profile-typewriter");
     let profileIndex = 0;
-
     function typeProfile() {
       if (profileIndex < profileText.length) {
         profileEl.innerHTML += profileText.charAt(profileIndex);
@@ -261,76 +285,56 @@
     }
     setTimeout(typeProfile, 500);
 
-
-    // --- 2. Modal & Blog Typewriter Logic (New) ---
+    // --- Modal & Blog Logic ---
     const modal = document.getElementById('blog-modal');
     const closeBtn = document.getElementById('close-modal');
     const titleEl = document.getElementById('modal-article-title');
     const bodyEl = document.getElementById('modal-article-body');
     const blogCards = document.querySelectorAll('.blog-card');
-    
-    let typingTimer; // We need this to cancel the typing if the user closes early
+    let typingTimer;
 
-    // Reusable typing function
     function typeText(element, text, speed, callback) {
       element.innerHTML = "";
       let i = 0;
       function type() {
         if (i < text.length) {
-          // Check for line breaks (\n) and convert to HTML <br> tags
           if(text.charAt(i) === '\\' && text.charAt(i+1) === 'n') {
-             element.innerHTML += "<br>";
-             i += 2;
+             element.innerHTML += "<br>"; i += 2;
           } else {
-             element.innerHTML += text.charAt(i);
-             i++;
+             element.innerHTML += text.charAt(i); i++;
           }
           typingTimer = setTimeout(type, speed);
         } else if (callback) {
-          callback(); // Trigger the next action when done
+          callback();
         }
       }
       type();
     }
 
-    // When a blog card is clicked
     blogCards.forEach(card => {
       card.addEventListener('click', () => {
-        // 1. Get the data from the HTML
         const titleText = "> " + card.getAttribute('data-title');
         const bodyText = card.getAttribute('data-body');
-
-        // 2. Open the modal
         modal.classList.add('active');
-        
-        // 3. Clear any old text and start typing sequentially
         clearTimeout(typingTimer);
-        titleEl.innerHTML = "";
-        bodyEl.innerHTML = "";
+        titleEl.innerHTML = ""; bodyEl.innerHTML = "";
         
-        // Type title fast (50ms), then type body slightly slower (30ms)
         typeText(titleEl, titleText, 50, () => {
-          // Add the blinking cursor to the body
           bodyEl.innerHTML = "<span class='cursor'></span>";
           setTimeout(() => typeText(bodyEl, bodyText, 30), 200); 
         });
       });
     });
 
-    // When the close button is clicked
     closeBtn.addEventListener('click', () => {
-      modal.classList.remove('active');
-      clearTimeout(typingTimer); // Stop typing immediately!
+      modal.classList.remove('active'); clearTimeout(typingTimer);
     });
 
-    // Close modal if user clicks outside the box
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
-        modal.classList.remove('active');
-        clearTimeout(typingTimer);
+        modal.classList.remove('active'); clearTimeout(typingTimer);
       }
     });
   </script>
-
 </body>
 </html>
