@@ -21,6 +21,25 @@
       padding: 40px 20px;
     }
 
+         /* --- SPACE BACKGROUND STYLES --- */
+#space-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Puts it behind everything else */
+  pointer-events: none; /* Prevents it from blocking your clicks */
+}
+
+/* IMPORTANT: Update your existing body style to make sure it doesn't cover the canvas */
+body {
+  /* Remove the background-color: #0f0f13; from your body, or change it to transparent */
+  background-color: #0f0f13; /* The canvas will sit over this, or we can just draw a black background in JS */
+  color: #e0e0e0; 
+  line-height: 1.6;
+  padding: 40px 20px;
+}
     /* --- THE NEW GRID LAYOUT --- */
     .layout-wrapper {
       max-width: 1200px; /* Widened to fit both columns */
@@ -185,25 +204,7 @@
       .layout-wrapper { grid-template-columns: 1fr; gap: 40px; }
       .about-section { margin-bottom: 0; }
 
-      /* --- SPACE BACKGROUND STYLES --- */
-#space-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1; /* Puts it behind everything else */
-  pointer-events: none; /* Prevents it from blocking your clicks */
-}
-
-/* IMPORTANT: Update your existing body style to make sure it doesn't cover the canvas */
-body {
-  /* Remove the background-color: #0f0f13; from your body, or change it to transparent */
-  background-color: #0f0f13; /* The canvas will sit over this, or we can just draw a black background in JS */
-  color: #e0e0e0; 
-  line-height: 1.6;
-  padding: 40px 20px;
-}
+ 
     }
   </style>
 </head>
