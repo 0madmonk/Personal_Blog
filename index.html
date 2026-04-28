@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Abhyudai | Player Profile</title>
+  <title>Abhyudai | The Void</title>
   
   <style>
     /* --- GLOBAL STYLES --- */
@@ -21,18 +21,21 @@
       padding: 20px;
     }
 
-    /* --- THE ABOUT SECTION CONTAINER --- */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* --- THE ABOUT SECTION (PLAYER PROFILE) --- */
     .about-section {
       background-color: #1c1c24; 
       border: 1px solid #333;
       border-radius: 8px;
       padding: 30px;
-      max-width: 800px;
-      margin: 40px auto; 
+      margin: 40px 0; 
       box-shadow: 0 8px 32px rgba(0, 243, 255, 0.05); 
     }
 
-    /* --- TYPEWRITER & CURSOR STYLES --- */
     .about-section h2 {
       color: #00f3ff; 
       border-bottom: 2px solid #2a2a35;
@@ -42,10 +45,9 @@
       letter-spacing: 2px;
       display: flex;
       align-items: center;
-      min-height: 40px; /* Keeps the box from jumping while typing */
+      min-height: 40px;
     }
 
-    /* The glowing blinking cursor */
     .cursor {
       display: inline-block;
       width: 12px;
@@ -61,38 +63,8 @@
       50% { opacity: 0; }
     }
 
-    .about-section p {
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-    }
+    .about-section p { font-size: 1.1rem; margin-bottom: 30px; }
 
-    /* --- CURRENT QUESTS BOX --- */
-    .current-status {
-      background-color: #252530;
-      padding: 20px;
-      border-left: 4px solid #ff0055; 
-      border-radius: 4px;
-      margin-bottom: 30px;
-    }
-
-    .current-status h3 {
-      color: #ff0055;
-      margin-bottom: 15px;
-      text-transform: uppercase;
-      font-size: 1rem;
-      letter-spacing: 1px;
-    }
-
-    .current-status ul {
-      list-style-type: none;
-    }
-
-    .current-status li {
-      margin-bottom: 10px;
-      font-size: 1.05rem;
-    }
-
-    /* --- SOCIAL LINKS (BUTTONS) --- */
     .social-links h3 {
       color: #00f3ff;
       margin-bottom: 15px;
@@ -124,71 +96,240 @@
       box-shadow: 0 0 15px rgba(255, 0, 85, 0.6);
       transform: translateY(-3px); 
     }
+
+    /* --- THE LIBRARY (BLOG CARDS) --- */
+    .section-title {
+      color: #ff0055;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-bottom: 2px solid #2a2a35;
+      padding-bottom: 10px;
+    }
+
+    .blog-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .blog-card {
+      background-color: #1c1c24;
+      border: 1px solid #333;
+      padding: 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .blog-card:hover {
+      border-color: #00f3ff;
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+      transform: translateX(10px); /* Slides right slightly on hover */
+    }
+
+    .blog-card h3 { color: #e0e0e0; margin-bottom: 5px; }
+    .blog-card p { color: #888; font-size: 0.9rem; }
+
+    /* --- THE MODAL (POPUP) --- */
+    .modal-overlay {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(15, 15, 19, 0.9); /* Dark semi-transparent background */
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-content {
+      background-color: #1c1c24;
+      border: 1px solid #00f3ff;
+      border-radius: 8px;
+      padding: 40px;
+      width: 90%;
+      max-width: 700px;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.1);
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    /* When modal is active, trigger these animations */
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px; right: 20px;
+      color: #ff0055;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: text-shadow 0.2s;
+    }
+
+    .close-btn:hover {
+      text-shadow: 0 0 10px #ff0055;
+    }
+
+    #modal-article-title { color: #00f3ff; margin-bottom: 20px; }
+    #modal-article-body { color: #e0e0e0; white-space: pre-wrap; /* Keeps line breaks */ }
+
   </style>
 </head>
 
 <body>
 
-  <section id="about-me" class="about-section">
-    <h2>
-      <span id="typewriter-text"></span><span class="cursor"></span>
-    </h2>
-    
-    <p>
-      I'm a builder at the intersection of engineering, product strategy, and sound. 
-      Currently pursuing a dual degree in Electronics & Instrumentation and Physics at BITS Pilani. 
-      By day, I work on business strategy and product analytics. By night, I build games, 
-      mess with guitar tech, and write about the journey.
-    </p>
+  <div class="container">
+    <section id="about-me" class="about-section">
+      <h2><span id="profile-typewriter"></span><span class="cursor"></span></h2>
+      <p>
+        I'm a builder at the intersection of engineering, product strategy, and sound. 
+        Currently pursuing a dual degree in Electronics & Instrumentation and Physics at BITS Pilani. 
+        By day, I work on business strategy and product analytics. By night, I build games, 
+        mess with guitar tech, and write about the journey.
+      </p>
+      <div class="social-links">
+        <h3>Connect with me:</h3>
+        <ul>
+          <li><a href="mailto:abhyudai13@gmail.com">Email Me</a></li>
+          <li><a href="https://www.linkedin.com/in/abhyudai-152a58215/" target="_blank">LinkedIn</a></li>
+          <li><a href="https://www.youtube.com/@monkmad" target="_blank">YouTube (@monkmad)</a></li>
+        </ul>
+      </div>
+    </section>
 
-    <div class="current-status">
-      <h3>Current Quests:</h3>
-      <ul>
-        <li>🇩🇪 Tackling a 100-day German learning challenge.</li>
-        <li>🎸 Building and coding a custom MIDI footswitch.</li>
-        <li>♟️ Playing Chess and exploring transactional diplomacy.</li>
-      </ul>
-    </div>
+    <section id="library">
+      <h2 class="section-title">📖 The Library</h2>
+      <div class="blog-grid">
+        
+        <div class="blog-card" 
+             data-title="Day 14/100: German Articles & Logic" 
+             data-body="Learning German as a programmer is strange. The grammar feels like a strict compiler, and getting the articles (Der, Die, Das) wrong is essentially a syntax error. \n\nToday I learned that you just have to memorize the gender with the noun. It's inefficient, but I'm building a mental hash-map to deal with it.">
+          <h3>Day 14/100: German Articles & Logic</h3>
+          <p>Read time: 2 mins • A programmer's take on linguistics.</p>
+        </div>
 
-    <div class="social-links">
-      <h3>Connect with me:</h3>
-      <ul>
-        <li><a href="mailto:abhyudai13@gmail.com">Email Me</a></li>
-        <li><a href="https://www.linkedin.com/in/abhyudai-152a58215/" target="_blank">LinkedIn</a></li>
-        <li><a href="https://www.youtube.com/@monkmad" target="_blank">YouTube (@monkmad)</a></li>
-      </ul>
+        <div class="blog-card" 
+             data-title="Strategy: The Velocity of Money" 
+             data-body="I've been thinking a lot about the 'Middle Path' in financial management. \n\nThere is a concept called the velocity of money. Instead of hoarding capital, sometimes strategic leverage (like a smart EMI) unlocks utility today without sacrificing long-term stability. It's about optimizing for both comfort and discipline.">
+          <h3>Strategy: The Velocity of Money</h3>
+          <p>Read time: 3 mins • Financial frameworks for daily life.</p>
+        </div>
+
+        <div class="blog-card" 
+             data-title="Debugging the Signal Chain" 
+             data-body="Spent the weekend chasing down a terrible crackle sound in my guitar rig. \n\nTurns out, digital signal processing in AmpliTube requires ruthless volume knob management. If your input gain is too hot before it even hits the software amp, no amount of digital EQ will save you. Garbage in, garbage out.">
+          <h3>Debugging the Signal Chain</h3>
+          <p>Read time: 4 mins • Guitar tech and DSP lessons.</p>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <div id="blog-modal" class="modal-overlay">
+    <div class="modal-content">
+      <span class="close-btn" id="close-modal">&times;</span>
+      <h2 id="modal-article-title"></h2>
+      <p id="modal-article-body"></p>
     </div>
-  </section>
+  </div>
 
   <script>
-    // 1. The text you want to type out
-    const textToType = "> PLAYER PROFILE: ABHYUDAI";
-    
-    // 2. Where we want to put the text
-    const typeElement = document.getElementById("typewriter-text");
-    
-    // 3. Setup variables
-    let i = 0;
-    const speed = 100; // Speed in milliseconds (lower = faster)
+    // --- 1. Profile Typewriter Effect (Existing) ---
+    const profileText = "> PLAYER PROFILE: ABHYUDAI";
+    const profileEl = document.getElementById("profile-typewriter");
+    let profileIndex = 0;
 
-    // 4. The typing function
-    function typeWriter() {
-      // If we haven't reached the end of the sentence yet...
-      if (i < textToType.length) {
-        // Add the next letter to the HTML
-        typeElement.innerHTML += textToType.charAt(i);
-        i++; // Move to the next letter
-        
-        // Wait a fraction of a second, then run this function again
-        setTimeout(typeWriter, speed);
+    function typeProfile() {
+      if (profileIndex < profileText.length) {
+        profileEl.innerHTML += profileText.charAt(profileIndex);
+        profileIndex++;
+        setTimeout(typeProfile, 100);
       }
     }
+    setTimeout(typeProfile, 500);
 
-    // 5. Start the effect as soon as the window loads
-    window.onload = () => {
-      // Small delay of 500ms before it starts typing, feels more natural
-      setTimeout(typeWriter, 500); 
-    };
+
+    // --- 2. Modal & Blog Typewriter Logic (New) ---
+    const modal = document.getElementById('blog-modal');
+    const closeBtn = document.getElementById('close-modal');
+    const titleEl = document.getElementById('modal-article-title');
+    const bodyEl = document.getElementById('modal-article-body');
+    const blogCards = document.querySelectorAll('.blog-card');
+    
+    let typingTimer; // We need this to cancel the typing if the user closes early
+
+    // Reusable typing function
+    function typeText(element, text, speed, callback) {
+      element.innerHTML = "";
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          // Check for line breaks (\n) and convert to HTML <br> tags
+          if(text.charAt(i) === '\\' && text.charAt(i+1) === 'n') {
+             element.innerHTML += "<br>";
+             i += 2;
+          } else {
+             element.innerHTML += text.charAt(i);
+             i++;
+          }
+          typingTimer = setTimeout(type, speed);
+        } else if (callback) {
+          callback(); // Trigger the next action when done
+        }
+      }
+      type();
+    }
+
+    // When a blog card is clicked
+    blogCards.forEach(card => {
+      card.addEventListener('click', () => {
+        // 1. Get the data from the HTML
+        const titleText = "> " + card.getAttribute('data-title');
+        const bodyText = card.getAttribute('data-body');
+
+        // 2. Open the modal
+        modal.classList.add('active');
+        
+        // 3. Clear any old text and start typing sequentially
+        clearTimeout(typingTimer);
+        titleEl.innerHTML = "";
+        bodyEl.innerHTML = "";
+        
+        // Type title fast (50ms), then type body slightly slower (30ms)
+        typeText(titleEl, titleText, 50, () => {
+          // Add the blinking cursor to the body
+          bodyEl.innerHTML = "<span class='cursor'></span>";
+          setTimeout(() => typeText(bodyEl, bodyText, 30), 200); 
+        });
+      });
+    });
+
+    // When the close button is clicked
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      clearTimeout(typingTimer); // Stop typing immediately!
+    });
+
+    // Close modal if user clicks outside the box
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        clearTimeout(typingTimer);
+      }
+    });
   </script>
 
 </body>
